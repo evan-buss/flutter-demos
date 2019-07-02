@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial/animation.dart';
 import 'package:tutorial/dismissable_list.dart';
 import 'package:tutorial/layout_demo.dart';
+import 'package:tutorial/simple_redux.dart';
 import 'package:tutorial/sliver_fun.dart';
 
 // Uncomment lines 7 and 10 to view the visual layout at runtime.
@@ -65,6 +66,14 @@ class ScreenList extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => DismissableList()));
+            },
+          ),
+          ListTile(
+            title: Text("Simple Redux Example"),
+            subtitle: Text("The most basic redux usage."),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FlutterReduxApp()));
             },
           )
         ],

@@ -36,22 +36,45 @@ class DismissableListState extends State<DismissableList> {
             return Dismissible(
               // Each Dismissible must contain a Key. Keys allow Flutter to
               // uniquely identify widgets.
+
               key: Key(item),
               // Provide a function that tells the app
               // what to do after an item has been swiped away.
               onDismissed: (direction) {
-                print (direction);
-                // Remove the item from the data source.
-                setState(() {
-                  items.removeAt(index);
-                });
+                print(direction);
+                if (direction == DismissDirection.startToEnd) {
+                  // Remove the item from the data source.
+                  var removed = items.elementAt(index);
+                  setState(() {
+                    items.removeAt(index);
+                  });
 
-                // Then show a snackbar.
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text("$item dismissed")));
+                  // Then show a snackbar.
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    action: SnackBarAction(
+                      label: "UNDO",
+                      textColor: Colors.red,
+                      onPressed: () {
+                        setState(() {
+                          items.insert(index, removed);
+                        });
+                      },
+                    ),
+                    content: Text("$item deleted"),
+                  ));
+                } else if (direction == DismissDirection.endToStart) {
+                  print("LIKED");
+                }
               },
               // Show a red background as the item is swiped away.
-              background: Container(color: Colors.red),
+              background: Container(
+                color: Colors.red,
+                child: Icon(Icons.delete_forever),
+              ),
+              secondaryBackground: Container(
+                  alignment: Alignment.centerRight,
+                  color: Colors.green,
+                  child: Icon(Icons.favorite)),
               child: ListTile(title: Text('$item')),
             );
           },
